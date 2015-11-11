@@ -1,0 +1,6 @@
+---
+- name: install utilities and dependencies
+  yum: name=golang state=present
+
+- name: Set GOPATH
+  lineinfile: dest=/home/vagrant/.bash_profile line=export GOPATH={{ golang_gopath }}
