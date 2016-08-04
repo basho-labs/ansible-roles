@@ -1,0 +1,11 @@
+---
+ct_libs_base_path: $HOME/code
+ct_libs:
+    - { client: go, path: "{{ ct_libs_path }}/go/src/github.com/basho/riak-go-client", release: latest }
+    - { client: dotnet, path: "{{ ct_libs_path }}/riak-dotnet-client", release: latest }
+    - { client: php, path: "{{ ct_libs_path }}/riak-php-client", release: latest }
+    - { client: phppb, path: "{{ ct_libs_path }}/riak-phppb-client", release: latest }
+    - { client: node, path: "{{ ct_libs_path }}/riak-node-client", release: latest }
+    - { client: erlang, path: "{{ ct_libs_path }}/riak-erlang-client", release: latest }
+    - { client: java, path: "{{ ct_libs_path }}/riak-java-client", release: latest }
+    - { client: python, path: "{{ ct_libs_path }}/riak-python-client", release: latest }

@@ -1,0 +1,3 @@
+---
+dependencies:
+  - { role: basho-labs.riak-kv, tags: ["riak"]}
