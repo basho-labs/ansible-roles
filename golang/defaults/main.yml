@@ -1,2 +1,4 @@
 ---
 golang_gopath: $HOME/code/go
+golang_usr_bin: false
+golang_usr_bin_mode: 0755

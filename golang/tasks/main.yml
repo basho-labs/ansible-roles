@@ -1,3 +1,7 @@
 ---
-#- name: Set GOPATH
-#  lineinfile: dest=/home/vagrant/.bash_profile line="export GOPATH={{ golang_gopath }}"
+- name: Set GOPATH
+  lineinfile: "dest=/home/vagrant/.bash_profile line='export GOPATH=$GOPATH:{{ golang_gopath }}'"
+
+- name: symlink go to /usr/bin making it available to ansible
+  file: "src=/usr/local/go/bin/go dest=/usr/bin/go state=link mode={{ golang_usr_bin_mode }}"
+  when: golang_usr_bin
