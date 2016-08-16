@@ -6,6 +6,11 @@ riak_backend: leveldb
 riak_node_name: "riak@{{ ansible_default_ipv4['address'] }}"
 riak_shell_group: 'riak-ts'
 
+riak_node_name: 'riak@127.0.0.1'
+
+riak_pb_bind_ip:    127.0.0.1
+riak_http_bind_ip:  127.0.0.1
+
 # setup Riak environment (bucket-types, users, sources, grants, conf)
 riak_bucket_types:
   - { name: plain, props: '{"props":{}}' }

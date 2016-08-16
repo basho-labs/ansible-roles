@@ -1,0 +1,47 @@
+---
+- name: ensure git is present
+  package: "name={{ item }} state=present"
+  with_items:
+  - git
+  - make
+
+- name: Install make
+  package: name=make state=present
+
+- name: Ensure lib directory exists
+  file: "path={{ item }} state=directory mode=0755"
+  with_items:
+  - '{{ ct_libs_base_path }}'
+
+- name: Ensure each lib directory exists
+  file: "path='{{ item.path }}' state=directory mode=0755"
+  with_items: '{{ ct_libs }}'
+
+- name: fetch release info
+  uri: "url='https://api.github.com/repos/basho/riak-{{ item.client }}-client/releases/latest?access_token=2341a216a64646cf9acc8448389645359b9bceb7' return_content=yes"
+  register: "release_data"
+  with_items: '{{ ct_libs }}'
+
+- name: fetch client archives
+  git: "repo=https://github.com/basho/riak-{{ item.item.client }}-client.git dest={{ item.item.path }} version={{ item.json.tag_name }} accept_hostkey=true"
+  with_items: '{{ release_data.results }}'
+
+- name: execute KV tests via makefile
+  command: "{{ item.cmd }} chdir='{{ item.path }}'"
+  with_items: '{{ ct_libs }}'
+  environment:
+    GOPATH: '{{ golang_gopath }}'
+    RIAK_HOST: '{{ riak_pb_bind_ip }}'
+    RIAK_PORT: '{{ riak_pb_port }}'
+    RIAK_HTTP_PORT: '{{ riak_http_port }}'
+  when: not ct_ts_cmd
+
+- name: execute timeseries tests via makefile
+  command: "{{ item.cmdts }} chdir='{{ item.path }}'"
+  with_items: '{{ ct_libs }}'
+  environment:
+    GOPATH: '{{ golang_gopath }}'
+    RIAK_HOST: '{{ riak_pb_bind_ip }}'
+    RIAK_PORT: '{{ riak_pb_port }}'
+    RIAK_HTTP_PORT: '{{ riak_http_port }}'
+  when: ct_ts_cmd

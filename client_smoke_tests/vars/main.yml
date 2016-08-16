@@ -1,0 +1,2 @@
+---
+golang_gopath: "{{ ct_libs_base_path }}/go"
