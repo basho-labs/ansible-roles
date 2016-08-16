@@ -1,1 +1,5 @@
 ---
+- name: ensure unzip is available for composer
+  package: "name={{ item }} state=present"
+  with_items:
+  - unzip

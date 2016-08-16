@@ -18,7 +18,7 @@
   with_items: '{{ ct_libs }}'
 
 - name: fetch release info
-  uri: "url='https://api.github.com/repos/basho/riak-{{ item.client }}-client/releases/latest?access_token=2341a216a64646cf9acc8448389645359b9bceb7' return_content=yes"
+  uri: "url='https://api.github.com/repos/basho/riak-{{ item.client }}-client/releases/latest?access_token={{ ct_github_token }}' return_content=yes"
   register: "release_data"
   with_items: '{{ ct_libs }}'
 
