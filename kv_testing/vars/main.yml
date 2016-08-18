@@ -1,8 +1,8 @@
 ---
-#riak_conf_template: 'riak.conf.j2'
+riak_conf_template: 'riak.conf.j2'
 
 riak_search:  'on'
-riak_backend: 'leveldb'
+riak_backend: 'multi'
 
 riak_node_name: 'riak@127.0.0.1'
 

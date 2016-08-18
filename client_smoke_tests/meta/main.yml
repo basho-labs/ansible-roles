@@ -2,3 +2,4 @@
 dependencies:
   - { role: golang }
   - { role: php }
+  - { role: java }
