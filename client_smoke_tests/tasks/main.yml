@@ -26,14 +26,14 @@
   git: "repo=https://github.com/basho/riak-{{ item.item.client }}-client.git dest={{ item.item.path }} version={{ item.json.tag_name }} accept_hostkey=true"
   with_items: '{{ release_data.results }}'
 
-- name: execute KV tests via makefile
+- name: execute Riak client library integration tests via makefile
   command: "{{ item[ct_cmd] }} chdir='{{ item.path }}'"
   with_items: '{{ ct_libs }}'
   environment:
     GOPATH: '{{ golang_gopath }}'
-    RIAK_HOST: '{{ riak_pb_bind_ip }}'
-    RIAK_PORT: '{{ riak_pb_port }}'
-    RIAK_HTTP_PORT: '{{ riak_http_port }}'
+    RIAK_HOST: '{{ ct_riak_host }}'
+    RIAK_PORT: '{{ ct_riak_port }}'
+    RIAK_HTTP_PORT: '{{ ct_riak_http_port }}'
   register: test_results
   ignore_errors: true
 
@@ -41,11 +41,11 @@
 #  debug: var=test_results
 
 - name: make sure output log directory exists
-  local_action: file path=/var/log/client_smoke_tests/ state=directory mode=0755
+  local_action: "file path=/var/log/client_smoke_tests/ state=directory mode=0755"
 
 - name: output test log if error
   local_action: "copy content={{ item.stdout }} dest=/var/log/client_smoke_tests/{{ item.item.client }}_{{ ansible_date_time.date }}.log"
-  with_items: test_results.results
+  with_items: '{{ test_results.results }}'
   when: item.failed
 
 - name: fail if any of the smoke tests failed
