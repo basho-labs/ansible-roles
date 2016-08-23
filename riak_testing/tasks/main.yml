@@ -1,0 +1,9 @@
+---
+- name: Set RIAK_HOST on vagrant user for tests
+  lineinfile: "dest=/home/vagrant/.bash_profile line='export RIAK_HOST={{ riak_testing_host }}'"
+
+- name: Set RIAK_PORT on vagrant user for tests
+  lineinfile: "dest=/home/vagrant/.bash_profile line='export RIAK_PORT={{ riak_testing_pb_port }}'"
+
+- name: Set RIAK_HTTP_PORT on vagrant user for tests
+  lineinfile: "dest=/home/vagrant/.bash_profile line='export RIAK_HTTP_PORT={{ riak_testing_http_port }}'"

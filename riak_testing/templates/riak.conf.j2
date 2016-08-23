@@ -207,21 +207,21 @@ ring_size = {{ riak_ring_size }}
 ##
 ## Acceptable values:
 ##   - the path to a file
-ssl.certfile = {{ it_ssl_certfile }}
+ssl.certfile = {{ riak_testing_ssl_certfile }}
 
 ## Default key location for https can be overridden with the ssl
 ## config variable, for example:
 ##
 ## Acceptable values:
 ##   - the path to a file
-ssl.keyfile = {{ it_ssl_keyfile }}
+ssl.keyfile = {{ riak_testing_ssl_keyfile }}
 
 ## Default signing authority location for https can be overridden
 ## with the ssl config variable, for example:
 ##
 ## Acceptable values:
 ##   - the path to a file
-ssl.cacertfile = {{ it_ssl_cacertfile }}
+ssl.cacertfile = {{ riak_testing_ssl_cacertfile }}
 
 ## DTrace support Do not enable 'dtrace' unless your Erlang/OTP
 ## runtime is compiled to support DTrace.  DTrace is available in
@@ -295,7 +295,7 @@ listener.http.internal = {{ riak_http_bind_ip }}:{{ riak_http_port }}
 ##
 ## Acceptable values:
 ##   - an IP/port pair, e.g. 127.0.0.1:10011
-listener.protobuf.internal = {{ riak_pb_bind_ip }}:{{ riak_pb_port }}
+listener.protobuf.external = {{ riak_pb_bind_ip }}:{{ riak_pb_port }}
 
 ## The maximum length to which the queue of pending connections
 ## may grow. If set, it must be an integer > 0. If you anticipate a
@@ -313,7 +313,7 @@ listener.protobuf.internal = {{ riak_pb_bind_ip }}:{{ riak_pb_port }}
 ##
 ## Acceptable values:
 ##   - an IP/port pair, e.g. 127.0.0.1:10011
-#listener.https.internal = {{ it_https_bind_ip }}:{{ it_https_port }}
+{% if not riak_security_enabled %}#{% endif %}listener.https.internal = {{ riak_https_bind_ip }}:{{ riak_https_port }}
 
 ## How Riak will repair out-of-sync keys. Some features require
 ## this to be set to 'active', including search.
@@ -472,7 +472,7 @@ search = {{ riak_search }}
 ##
 ## Acceptable values:
 ##   - a time duration with units, e.g. '10s' for 10 seconds
-search.solr.start_timeout = {{ it_solr_start_timeout | default('60s') }}
+search.solr.start_timeout = {{ riak_testing_solr_start_timeout | default('60s') }}
 
 ## The port number which Solr binds to.
 ## NOTE: Binds on every interface.
@@ -502,8 +502,22 @@ search.solr.jmx_port = 8985
 ##   - text
 search.solr.jvm_options = -d64 -Xms1g -Xmx1g -XX:+UseStringCache -XX:+UseCompressedOops
 
-tls_protocols.sslv3 = {{ it_sslv3 | default('off') }}
-tls_protocols.tlsv1 = {{ it_tlsv1 | default('on') }}
-tls_protocols.tlsv1.1 = {{ it_tlsv11 | default('on') }}
-tls_protocols.tlsv1.2 = {{ it_tlsv12 | default('on') }}
-check_crl = {{ it_check_crl | default('off') }}
+tls_protocols.sslv3 = {{ riak_testing_sslv3 | default('off') }}
+tls_protocols.tlsv1 = {{ riak_testing_tlsv1 | default('on') }}
+tls_protocols.tlsv1.1 = {{ riak_testing_tlsv11 | default('on') }}
+tls_protocols.tlsv1.2 = {{ riak_testing_tlsv12 | default('on') }}
+check_crl = {{ riak_testing_check_crl | default('off') }}
+
+multi_backend.default = leveldb_backend
+
+multi_backend.bitcask_backend.storage_backend = bitcask
+multi_backend.bitcask_backend.bitcask.data_root = $(platform_data_dir)/bitcask
+multi_backend.bitcask_backend.bitcask.io_mode = erlang
+
+multi_backend.leveldb_backend.storage_backend = leveldb
+multi_backend.leveldb_backend.leveldb.data_root = $(platform_data_dir)/leveldb
+multi_backend.leveldb_backend.leveldb.maximum_memory.percent = 30
+
+multi_backend.mem_backend.storage_backend = memory
+multi_backend.mem_backend.memory_backend.ttl = 10s
+multi_backend.mem_backend.memory_backend.max_memory_per_vnode = 4MB

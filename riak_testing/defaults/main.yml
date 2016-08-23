@@ -1,0 +1,25 @@
+---
+riak_testing_host:  riak-test
+riak_testing_pb_port:   8087
+riak_testing_http_port: 8098
+
+riak_testing_certs_dir:   ''
+riak_testing_permissions:
+  - riak_kv.get
+  - riak_kv.put
+  - riak_kv.delete
+  - riak_kv.index
+  - riak_kv.list_keys
+  - riak_kv.list_buckets
+  - riak_core.get_bucket
+  - riak_core.set_bucket
+  - riak_core.get_bucket_type
+  - riak_core.set_bucket_type
+  - search.admin
+  - search.query
+
+riak_testing_data_dir: '/var/lib/riak'
+
+riak_testing_ssl_certfile:    '{{ riak_testing_certs_dir }}/certs/riak-test-cert.pem'
+riak_testing_ssl_keyfile:     '{{ riak_testing_certs_dir }}/private/riak-test-key.pem'
+riak_testing_ssl_cacertfile:  '{{ riak_testing_certs_dir }}/certs/cacert.pem'
