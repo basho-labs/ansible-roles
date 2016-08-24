@@ -23,7 +23,7 @@
   with_items: '{{ ct_libs }}'
 
 - name: fetch client archives
-  git: "repo=https://github.com/basho/riak-{{ item.item.client }}-client.git dest={{ item.item.path }} version={{ item.json.tag_name }} accept_hostkey=true"
+  git: "repo=https://github.com/basho/riak-{{ item.item.client }}-client.git dest={{ item.item.path }} version={{ item.item.release | default(item.json.tag_name) }} accept_hostkey=true"
   with_items: '{{ release_data.results }}'
 
 - name: execute Riak client library integration tests via makefile
