@@ -295,7 +295,7 @@ listener.http.internal = {{ riak_http_bind_ip }}:{{ riak_http_port }}
 ##
 ## Acceptable values:
 ##   - an IP/port pair, e.g. 127.0.0.1:10011
-listener.protobuf.external = {{ riak_pb_bind_ip }}:{{ riak_pb_port }}
+listener.protobuf.internal = {{ riak_pb_bind_ip }}:{{ riak_pb_port }}
 
 ## The maximum length to which the queue of pending connections
 ## may grow. If set, it must be an integer > 0. If you anticipate a

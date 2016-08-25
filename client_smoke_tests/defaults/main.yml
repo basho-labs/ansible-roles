@@ -12,7 +12,7 @@ ct_github_token: 2341a216a64646cf9acc8448389645359b9bceb7
 ct_libs:
     - { client: go, path: "{{ ct_libs_base_path }}/go/src/github.com/basho/riak-go-client", cmd: 'make all', cmdts: 'make timeseries-test' }
     - { client: php, path: "{{ ct_libs_base_path }}/riak-php-client", cmd: '/usr/local/bin/composer update && ./vendor/bin/phpunit', cmdts: '/usr/local/bin/composer update && ./vendor/bin/phpunit TimeSeriesOperationsTest tests/functional/TimeSeriesOperationsTest.php' }
-    - { client: java, path: "{{ ct_libs_base_path }}/riak-java-client", release: 'develop', cmd: 'make test', cmdts: 'make timeseries-test' }
+    - { client: java, path: "{{ ct_libs_base_path }}/riak-java-client", release: 'develop', cmd: 'make test', cmdts: 'make test-ts' }
     #- { client: dotnet, path: "{{ ct_libs_base_path }}/riak-dotnet-client", cmd: 'make all', cmdts: 'make timeseries-test' }
     #- { client: phppb, path: "{{ ct_libs_base_path }}/riak-phppb-client", cmd: 'make all', cmdts: 'make timeseries-test' }
     #- { client: node, path: "{{ ct_libs_base_path }}/riak-node-client", cmd: 'make all', cmdts: 'make timeseries-test' }

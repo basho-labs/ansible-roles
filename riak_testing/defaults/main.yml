@@ -1,4 +1,30 @@
 ---
+riak_search:  'on'
+riak_backend: 'multi'
+
+# setup Riak environment (bucket-types, users, sources, grants, conf)
+riak_bucket_types:
+  - { name: bitcask, props: '{"props":{"backend":"bitcask_backend"}}' }
+  - { name: counters, props: '{"props":{"datatype":"counter"}}' }
+  - { name: leveldb_type, props: '' }
+  - { name: maps, props: '{"props":{"datatype":"map"}}' }
+  - { name: memory_type, props: '{"props":{"backend":"mem_backend"}}' }
+  - { name: mr, props: '' }
+  - { name: no_siblings, props: '{"props":{"allow_mult":"false"}}' }
+  - { name: other_counters, props: '{"props":{"datatype":"counter"}}' }
+  - { name: plain, props: '' }
+  - { name: search_type, props: '' }
+  - { name: sets, props: '{"props":{"datatype":"set"}}' }
+  - { name: write_once, props: '{"props":{"write_once":true}}' }
+  - { name: yokozuna, props: '' }
+
+  # PHP Testing Buckets
+  - { name: phptest_counters,  props: '{"props":{"datatype":"counter"}}' }
+  - { name: phptest_leveldb, props: '' }
+  - { name: phptest_maps, props: '{"props":{"datatype":"map"}}' }
+  - { name: phptest_search, props: '' }
+  - { name: phptest_sets, props: '{"props":{"datatype":"set"}}' }
+
 riak_testing_host:  riak-test
 riak_testing_pb_port:   8087
 riak_testing_http_port: 8098

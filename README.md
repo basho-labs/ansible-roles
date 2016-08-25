@@ -4,9 +4,10 @@ Shareable Ansible roles used for multiple use cases inside Basho.
 
 1. [Prerequisites](#prerequisites)
 1. [Installation](#installation)
+1. [Client Library Environments](#client-library-environments)
+1. [Playbook Examples](#playbook-examples)
 1. [Contributing](#contributing)
 1. [License and Authors](#license-and-authors)
-1. [Screenshots](#screenshots)
 
 ## Prerequisites
 
@@ -26,6 +27,16 @@ There are two ways you can use the roles from this repository. Option A is to us
 * Java
 * Node
 * Erlang
+
+## Playbook Examples
+
+The following are several examples of how to use these Ansible roles in your environment
+
+### Riak KV Testing
+
+### Riak TS Testing
+
+### Riak Security Testing
 
 ## Contributing
 
