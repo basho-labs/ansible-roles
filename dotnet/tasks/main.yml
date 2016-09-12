@@ -1,0 +1,18 @@
+---
+- name: Install dependencies
+  package: "name={{ item }} state=present"
+  with_items:
+    - libunwind
+    - libicu
+
+- name: Create / verify directories
+  file: dest=/usr/local/dotnet state=directory
+
+- name: Fetch .NET Core
+  get_url: url=https://go.microsoft.com/fwlink/?LinkID=809131 dest=/tmp/dotnet.tar.gz mode=0655
+
+- name: Unarchive .NET Core
+  unarchive: src=/tmp/dotnet.tar.gz dest=/usr/local/dotnet
+
+- name: Link executable to path
+  file: src=/usr/local/dotnet/dotnet dest=/usr/bin/dotnet state=link
