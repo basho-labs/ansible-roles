@@ -9,13 +9,34 @@ ct_riak_http_port:  8098
 # access token from cmancini's GH account
 ct_github_token: 2341a216a64646cf9acc8448389645359b9bceb7
 
+# collection of all libs w/ path and test runner commands
 ct_libs:
-    - { client: go, path: "{{ ct_libs_base_path }}/go/src/github.com/basho/riak-go-client", cmd: 'make all', cmdts: 'make timeseries-test' }
-    - { client: php, path: "{{ ct_libs_base_path }}/riak-php-client", cmd: '/usr/local/bin/composer update && ./vendor/bin/phpunit', cmdts: '/usr/local/bin/composer update && ./vendor/bin/phpunit TimeSeriesOperationsTest tests/functional/TimeSeriesOperationsTest.php' }
-    - { client: java, path: "{{ ct_libs_base_path }}/riak-java-client", release: 'develop', cmd: 'make test', cmdts: 'make test-ts' }
-    #- { client: dotnet, path: "{{ ct_libs_base_path }}/riak-dotnet-client", cmd: 'make all', cmdts: 'make timeseries-test' }
-    #- { client: phppb, path: "{{ ct_libs_base_path }}/riak-phppb-client", cmd: 'make all', cmdts: 'make timeseries-test' }
-    #- { client: node, path: "{{ ct_libs_base_path }}/riak-node-client", cmd: 'make all', cmdts: 'make timeseries-test' }
-    #- { client: erlang, path: "{{ ct_libs_base_path }}/riak-erlang-client", cmd: 'make all', cmdts: 'make timeseries-test' }
-    #- { client: python, path: "{{ ct_libs_base_path }}/riak-python-client", cmd: 'make all', cmdts: 'make timeseries-test' }
-    #- { client: ruby, path: "{{ ct_libs_base_path }}/riak-ruby-client", cmd: 'make all', cmdts: 'make timeseries-test' }
+    - { client: go, path: "{{ ct_libs_base_path }}/go/src/github.com/basho/riak-go-client", deps: 'make install-deps', cmd: 'make integration-test', cmdts: 'make timeseries-test' }
+    - {
+        client: php,
+        path: "{{ ct_libs_base_path }}/riak-php-client",
+        deps: '/usr/local/bin/composer update',
+        cmd: './vendor/bin/phpunit',
+        cmdts: './vendor/bin/phpunit TimeSeriesOperationsTest tests/functional/TimeSeriesOperationsTest.php'
+    }
+    - { client: java, path: "{{ ct_libs_base_path }}/riak-java-client", release: 'develop', deps: '', cmd: 'make test', cmdts: 'make test-ts' }
+    - {
+        client: ruby,
+        release: 'master',
+        path: "{{ ct_libs_base_path }}/riak-ruby-client",
+        deps: '/usr/local/bin/bundle install --binstubs --path=vendor --without=guard',
+        cmd: "/usr/local/bin/bundle exec rspec --tag ~time_series",
+        cmdts: "/usr/local/bin/bundle exec rspec --tag time_series"
+    }
+    - { client: dotnet, path: "{{ ct_libs_base_path }}/riak-dotnet-client", deps: '', cmd: 'make all', cmdts: 'make timeseries-test' }
+    - { client: phppb, path: "{{ ct_libs_base_path }}/riak-phppb-client", deps: '', cmd: 'make all', cmdts: 'make timeseries-test' }
+    - { client: node, path: "{{ ct_libs_base_path }}/riak-node-client", deps: '', cmd: 'make all', cmdts: 'make timeseries-test' }
+    - { client: erlang, path: "{{ ct_libs_base_path }}/riak-erlang-client", deps: '', cmd: 'make all', cmdts: 'make timeseries-test' }
+    - { client: python, path: "{{ ct_libs_base_path }}/riak-python-client", deps: '', cmd: 'make all', cmdts: 'make timeseries-test' }
+
+# collection of libs to execute tests for
+ct_test_libs:
+    - go
+    - php
+    - java
+    - ruby

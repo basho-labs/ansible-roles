@@ -1,0 +1,5 @@
+---
+  ruby_install_from_source: true
+  ruby_version: 2.2.5
+  ruby_download_url: https://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.5.tar.gz
+  workspace: /tmp

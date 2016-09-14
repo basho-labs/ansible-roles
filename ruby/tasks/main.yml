@@ -1,3 +1,4 @@
 ---
-#- name: Add rvm group to vagrant user
-#  user: name=vagrant shell=/bin/bash groups=rvm append=yes
+- name: Ensure bundles path exists
+  file: "path='{{ ruby_client_bundles_path }}' state=directory mode=0755"
+  when: ruby_client_bundles_path is defined and ruby_client_bundles_path != 'vendor'

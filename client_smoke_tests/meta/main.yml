@@ -1,5 +1,6 @@
 ---
 dependencies:
-  - { role: golang }
-  - { role: php }
-  - { role: java }
+  - { role: golang, when: "'go' in ct_test_libs" }
+  - { role: php, when: "'php' in ct_test_libs" }
+  - { role: java, when: "'java' in ct_test_libs" }
+  - { role: ruby, when: "'ruby' in ct_test_libs" }

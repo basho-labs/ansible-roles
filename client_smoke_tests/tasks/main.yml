@@ -9,24 +9,47 @@
   package: name=make state=present
 
 - name: Ensure lib directory exists
-  file: "path={{ item }} state=directory mode=0755"
-  with_items:
-  - '{{ ct_libs_base_path }}'
+  file: "path={{ ct_libs_base_path }} state=directory mode=0755"
+  become: false
 
 - name: Ensure each lib directory exists
   file: "path='{{ item.path }}' state=directory mode=0755"
+  become: false
   with_items: '{{ ct_libs }}'
+  when:
+    - item is defined
+    - item.client in ct_test_libs
 
 - name: fetch release info
   uri: "url='https://api.github.com/repos/basho/riak-{{ item.client }}-client/releases/latest?access_token={{ ct_github_token }}' return_content=yes"
   register: "release_data"
+  become: false
   with_items: '{{ ct_libs }}'
+  when:
+    - item is defined
+    - item.client in ct_test_libs
 
 - name: fetch client archives
   git: "repo=https://github.com/basho/riak-{{ item.item.client }}-client.git dest={{ item.item.path }} version={{ item.item.release | default(item.json.tag_name) }} accept_hostkey=true"
+  become: false
   with_items: '{{ release_data.results }}'
+  when:
+    - item is defined
+    - not item | skipped
+    - not item | failed
 
-- name: execute Riak client library integration tests via makefile
+- name: fetch Riak client library dependencies
+  command: "{{ item.deps }} chdir='{{ item.path }}'"
+  with_items: '{{ ct_libs }}'
+  environment:
+    GOPATH: '{{ golang_gopath }}'
+  become: false
+  when:
+    - item is defined
+    - item.client in ct_test_libs
+    - not item.deps is none
+
+- name: execute Riak client library integration tests
   command: "{{ item[ct_cmd] }} chdir='{{ item.path }}'"
   with_items: '{{ ct_libs }}'
   environment:
@@ -35,7 +58,11 @@
     RIAK_PORT: '{{ ct_riak_port }}'
     RIAK_HTTP_PORT: '{{ ct_riak_http_port }}'
   register: test_results
+  become: false
   ignore_errors: true
+  when:
+    - item is defined
+    - item.client in ct_test_libs
 
 #- name: output debug data
 #  debug: var=test_results
@@ -46,8 +73,11 @@
 - name: output test log if error
   local_action: "copy content={{ item.stdout }} dest=/var/log/client_smoke_tests/{{ item.item.client }}_{{ ansible_date_time.date }}.log"
   with_items: '{{ test_results.results }}'
-  when: item.failed
+  when:
+    - item | failed
+    - item.stdout is defined
 
 - name: fail if any of the smoke tests failed
   fail: msg="Smoke tests failed. Results logged to /var/log/client_smoke_tests/"
-  when: test_results|failed
+  when:
+    - test_results | failed
