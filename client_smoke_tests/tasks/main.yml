@@ -5,9 +5,6 @@
   - git
   - make
 
-- name: Install make
-  package: name=make state=present
-
 - name: Ensure lib directory exists
   file: "path={{ ct_libs_base_path }} state=directory mode=0755"
   become: false
