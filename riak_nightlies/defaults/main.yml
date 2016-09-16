@@ -1,0 +1,43 @@
+---
+riak_distro: centos-7
+riak_nightly_url: https://basholabs.artifactoryonline.com/basholabs/build/{{ riak_distro }}/{{ riak_package }}-oss-nightly/develop.tgz
+
+riak_package:       riak
+
+riak_enterprise:    false
+
+riak_base_dir: '/usr/local/riak'
+riak_admin:   '{{ riak_base_dir }}/bin/riak-admin'
+
+riak_conf_template: riak.conf.j2
+
+riak_node_name:     'riak@{{ ansible_fqdn }}'
+
+riak_pb_bind_ip:    0.0.0.0
+riak_pb_port:       8087
+
+riak_http_bind_ip:  0.0.0.0
+riak_http_port:     8098
+
+riak_https_bind_ip: 0.0.0.0
+riak_https_port:    10011
+
+riak_ring_size:     64
+riak_backend:       bitcask
+riak_control:       'off'
+riak_search:        'off'
+
+riak_leveldb_max_mem_percent:   70
+
+riak_net_speed:     1Gb
+
+riak_anti_entropy: active
+
+riak_security_enabled: false
+
+# riak_shell configuration
+riak_shell_group: 'riak'
+riak_shell_interface: 'ansible_eth0'
+riak_shell_conf_template: riak_shell.config.j2
+riak_shell_nodes_list: "{% for host in groups[riak_shell_group] %}riak@{{ hostvars[host][riak_shell_interface]['ipv4']['address'] }} {% endfor %}"
+riak_shell_nodes: "{{ riak_shell_nodes_list.split() }}"

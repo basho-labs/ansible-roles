@@ -25,6 +25,9 @@ riak_bucket_types:
   - { name: phptest_search, props: '' }
   - { name: phptest_sets, props: '{"props":{"datatype":"set"}}' }
 
+riak_testing_role_dev: false
+riak_testing_nightlies: false
+
 riak_testing_host:  riak-test
 riak_testing_pb_port:   8087
 riak_testing_http_port: 8098

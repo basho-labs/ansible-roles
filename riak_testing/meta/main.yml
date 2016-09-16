@@ -1,4 +1,5 @@
 ---
 dependencies:
-  #- { role: basho-labs.riak-kv, tags: ["riak"]}
-  - { role: basho-labs.riak-kv.dev, tags: ["riak"]}
+  - { role: basho-labs.riak-kv, when: not riak_testing_role_dev and not riak_testing_nightlies, tags: ["riak"]}
+  - { role: basho-labs.riak-kv.dev, when: riak_testing_role_dev and not riak_testing_nightlies, tags: ["riak"]}
+  - { role: riak_nightlies, when: riak_testing_nightlies, tags: ["riak"]}

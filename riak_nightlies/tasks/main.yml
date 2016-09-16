@@ -1,0 +1,50 @@
+---
+- name: Execute RedHat OS family specific install
+  include: RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- name: Execute Debian OS family specific install
+  include: Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: download nightly package
+  get_url: "url={{ riak_nightly_url }} dest=/tmp/"
+
+- name: extract nightly package
+  unarchive: src=/tmp/develop.tgz dest=/usr/local
+
+- name: create symlink for Riak config directory
+  file: "src={{ riak_base_dir }}/etc dest=/etc/riak state=link mode=0755"
+
+- name: Copy init.d file
+  copy: src=etc_initd_riak dest=/etc/init.d/riak mode=0755
+
+- name: update pam configuration
+  copy: src=etc_security_limits.d_riak.conf dest=/etc/security/limits.d/riak.conf owner=root group=root mode=0644
+
+- name: create sysctl.d
+  file: dest=/etc/sysctl.d state=directory
+
+- name: configure sysctl
+  template: src=etc_sysctl.d_riak.conf.j2 dest=/etc/sysctl.d/riak.conf owner=root group=root mode=0644
+
+- name: install riak.conf with templated configuration
+  template: "src={{ riak_conf_template }} dest=/etc/riak/riak.conf owner=root group=root mode=0444 backup=yes"
+  notify: restart riak
+
+- name: install riak_shell.config with templated configuration
+  template: "src={{ riak_shell_conf_template }} dest=/etc/riak/riak_shell.config owner=root group=root mode=0444"
+  when: riak_package == "riak_ts" and riak_shell_nodes is defined
+  notify: restart riak
+
+- name: Make certain Riak is started and set to start on boot
+  service: name=riak enabled=yes state=started
+
+- name: Wait for Riak to start up before continuing
+  wait_for: "delay=5 timeout=30 host={{ riak_pb_bind_ip }} port={{ riak_pb_port }} state=started"
+
+- name: Bucket operations
+  include: buckets.yml
+
+- name: Security operations
+  include: security.yml
