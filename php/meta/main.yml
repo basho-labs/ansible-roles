@@ -1,5 +1,15 @@
 ---
 dependencies:
-  - { role: geerlingguy.repo-remi }
-  - { role: geerlingguy.php }
+  - { role: geerlingguy.repo-remi, when: ansible_os_family == "RedHat" }
+  - {
+      role: geerlingguy.php,
+      php_enablerepo: "remi,remi-php70",
+      php_packages: ['php', 'php-devel','php-cli','php-common','php-devel','php-gd','php-mbstring','php-pdo','php-pear','php-pecl-xdebug','php-xml'] ,
+      when: ansible_os_family == "RedHat"
+    }
+  - {
+      role: geerlingguy.php,
+      php_packages: ['php', 'php-devel','php-cli','php-common','php-devel','php-gd','php-mbstring','php-pdo','php-pear','php-pecl-xdebug','php-xml'] ,
+      when: ansible_os_family == "Debian"
+    }
   - { role: geerlingguy.composer }

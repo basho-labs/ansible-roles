@@ -11,7 +11,7 @@ ct_github_token: 2341a216a64646cf9acc8448389645359b9bceb7
 
 # collection of all libs w/ path and test runner commands
 ct_libs:
-    - { client: go, path: "{{ ct_libs_base_path }}/go/src/github.com/basho/riak-go-client", deps: 'make install-deps', cmd: 'make integration-test', cmdts: 'make timeseries-test' }
+    - { client: go, path: "{{ ct_libs_base_path }}/go/src/github.com/basho/riak-go-client", release: 'master', deps: 'make install-deps', cmd: 'make integration-test', cmdts: 'make timeseries-test' }
     - {
         client: php,
         path: "{{ ct_libs_base_path }}/riak-php-client",
