@@ -34,6 +34,8 @@ The following are several examples of how to use these Ansible roles in your env
 
 ### Riak KV Testing
 
+**Install / configure Riak via PackageCloud & Execute client library tests**
+
 ```yml
 ---
 - hosts: localhost
@@ -77,6 +79,23 @@ The following are several examples of how to use these Ansible roles in your env
       - { name: phptest_maps, props: '{"props":{"datatype":"map"}}' }
       - { name: phptest_search, props: '' }
       - { name: phptest_sets, props: '{"props":{"datatype":"set"}}' }
+```
+
+**Execute client library tests against existing Riak instance / cluster**
+
+```yml
+---
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  roles:
+    - {
+        role: client_smoke_tests,
+        ct_test_libs: ['go','java','php','ruby','nodejs'],
+        ct_riak_host: 'myriakcluster.local.com',
+        ct_riak_port: 8087,
+        ct_riak_http_port: 8098
+      }
 ```
 
 ### Riak TS Testing
