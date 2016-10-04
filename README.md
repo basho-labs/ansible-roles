@@ -34,9 +34,169 @@ The following are several examples of how to use these Ansible roles in your env
 
 ### Riak KV Testing
 
+```yml
+---
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  roles:
+    - {
+        role: riak_testing,
+        riak_conf_template: '/vagrant/ansible-roles/riak_testing/templates/riak.conf.j2',
+        riak_node_name: "riak@127.0.0.1",
+      }
+    - {
+        role: client_smoke_tests,
+        ct_test_libs: ['go','java','php','ruby','nodejs']
+      }
+  vars:
+    riak_search:  'on'
+    riak_backend: 'multi'
+    riak_pb_bind_ip: 127.0.0.1
+
+    # setup Riak environment (bucket-types, users, sources, grants, conf)
+    riak_bucket_types:
+      - { name: bitcask, props: '{"props":{"backend":"bitcask_backend"}}' }
+      - { name: counters, props: '{"props":{"datatype":"counter"}}' }
+      - { name: hlls, props: '{"props":{"datatype":"hll"}}' }
+      - { name: leveldb_type, props: '' }
+      - { name: maps, props: '{"props":{"datatype":"map"}}' }
+      - { name: memory_type, props: '{"props":{"backend":"mem_backend"}}' }
+      - { name: mr, props: '' }
+      - { name: no_siblings, props: '{"props":{"allow_mult":"false"}}' }
+      - { name: other_counters, props: '{"props":{"datatype":"counter"}}' }
+      - { name: plain, props: '' }
+      - { name: search_type, props: '' }
+      - { name: sets, props: '{"props":{"datatype":"set"}}' }
+      - { name: write_once, props: '{"props":{"write_once":true}}' }
+      - { name: yokozuna, props: '' }
+
+      # PHP Testing Buckets
+      - { name: phptest_counters,  props: '{"props":{"datatype":"counter"}}' }
+      - { name: phptest_leveldb, props: '' }
+      - { name: phptest_maps, props: '{"props":{"datatype":"map"}}' }
+      - { name: phptest_search, props: '' }
+      - { name: phptest_sets, props: '{"props":{"datatype":"set"}}' }
+```
+
 ### Riak TS Testing
 
+```yml
+---
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  roles:
+    - {
+        role: riak_testing,
+        riak_conf_template: '/vagrant/ansible-roles/riak_testing/templates/riak.conf.j2',
+        riak_node_name: "riak@127.0.0.1",
+      }
+    - {
+        role: client_smoke_tests,
+        ct_test_libs: ['go','java','php','ruby','nodejs']
+      }
+  vars:
+    riak_package: 'riak-ts'
+    riak_shell_group: 'riak-ts'
+    ct_cmd: cmdts
+
+    riak_search:  'on'
+    riak_backend: 'multi'
+    riak_pb_bind_ip: 127.0.0.1
+
+    # setup Riak environment (bucket-types, users, sources, grants, conf)
+    riak_bucket_types:
+      #- { name: bitcask, props: '{"props":{"backend":"bitcask_backend"}}' }
+      - { name: counters, props: '{"props":{"datatype":"counter"}}' }
+      - { name: leveldb_type, props: '' }
+      - { name: maps, props: '{"props":{"datatype":"map"}}' }
+      - { name: mr, props: '' }
+      - { name: no_siblings, props: '{"props":{"allow_mult":"false"}}' }
+      - { name: other_counters, props: '{"props":{"datatype":"counter"}}' }
+      - { name: plain, props: '' }
+      - { name: search_type, props: '' }
+      - { name: sets, props: '{"props":{"datatype":"set"}}' }
+      - { name: write_once, props: '{"props":{"write_once":true}}' }
+      - { name: yokozuna, props: '' }
+
+      # TS
+      - { name: GeoCheckin, props: '{"props": {"n_val": 3, "table_def": "CREATE TABLE GeoCheckin (geohash varchar not null, user varchar not null, time timestamp not null, weather varchar not null, temperature double, PRIMARY KEY((geohash, user, quantum(time, 15, m)), geohash, user, time))"}}' }
+      - { name: GeoCheckin_Wide, props: '{"props": {"n_val": 3, "table_def": "CREATE TABLE GeoCheckin_Wide (geohash varchar not null, user varchar not null, time timestamp not null, weather varchar not null, temperature double, uv_index sint64, observed boolean not null, PRIMARY KEY((geohash, user, quantum(time, 15, m)), geohash, user, time))"}}' }
+      - { name: WeatherByRegion, props: '{"props": {"n_val": 3, "table_def": "CREATE TABLE WeatherByRegion (region varchar not null, state varchar not null, time timestamp not null, weather varchar not null, temperature double, uv_index sint64, observed boolean not null, PRIMARY KEY((region, state, quantum(time, 15, m)), region, state, time))"}}' }
+```
+
 ### Riak Security Testing
+
+```yml
+---
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  roles:
+    - {
+        role: riak_testing,
+        riak_conf_template: '/vagrant/ansible-roles/riak_testing/templates/riak.conf.j2',
+        riak_node_name: "riak@127.0.0.1",
+      }
+    - {
+        role: client_smoke_tests,
+        ct_test_libs: ['go','java','php','ruby','nodejs']
+      }
+  vars:
+    riak_package: 'riak-ts'
+    riak_shell_group: 'riak-ts'
+    ct_cmd: cmdts
+
+    riak_search:  'on'
+    riak_backend: 'multi'
+    riak_pb_bind_ip: 127.0.0.1
+
+    riak_security_enabled:  true
+    riak_testing_certs_dir: '/vagrant/tools/test-ca'
+
+    # setup Riak environment (bucket-types, users, sources, grants, conf)
+    riak_bucket_types:
+      - { name: bitcask, props: '{"props":{"backend":"bitcask_backend"}}' }
+      - { name: counters, props: '{"props":{"datatype":"counter"}}' }
+      - { name: hlls, props: '{"props":{"datatype":"hll"}}' }
+      - { name: leveldb_type, props: '' }
+      - { name: maps, props: '{"props":{"datatype":"map"}}' }
+      - { name: memory_type, props: '{"props":{"backend":"mem_backend"}}' }
+      - { name: mr, props: '' }
+      - { name: no_siblings, props: '{"props":{"allow_mult":"false"}}' }
+      - { name: other_counters, props: '{"props":{"datatype":"counter"}}' }
+      - { name: plain, props: '' }
+      - { name: search_type, props: '' }
+      - { name: sets, props: '{"props":{"datatype":"set"}}' }
+      - { name: write_once, props: '{"props":{"write_once":true}}' }
+      - { name: yokozuna, props: '' }
+
+      # PHP Testing Buckets
+      - { name: phptest_counters,  props: '{"props":{"datatype":"counter"}}' }
+      - { name: phptest_leveldb, props: '' }
+      - { name: phptest_maps, props: '{"props":{"datatype":"map"}}' }
+      - { name: phptest_search, props: '' }
+      - { name: phptest_sets, props: '{"props":{"datatype":"set"}}' }
+
+    riak_users:
+      - {user: 'riakuser', password: '', cert: '', groups: ''}
+      - {user: 'riakpass', password: 'Test1234', cert: '', groups: ''}
+      - {user: 'riakadmin', password: '', cert: '', groups: 'admins'}
+      - {user: 'riakdeveloper', password: '', cert: '', groups: 'developers'}
+
+    riak_groups:
+      - admins
+      - developers
+
+    riak_sources:
+      - {user: 'riakuser', type: 'certificate', cidr: '0.0.0.0/0'}
+      - {user: 'riakpass', type: 'password', cidr: '0.0.0.0/0'}
+
+    riak_grants:
+      - {subject: 'riakuser', scope: 'any', permissions: '{{ it_permissions|join(",")}}'}
+      - {subject: 'riakpass', scope: 'any', permissions: '{{ it_permissions|join(",")}}'}
+```
 
 ## Contributing
 
