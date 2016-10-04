@@ -1,0 +1,20 @@
+---
+- name: Fetch nodejs source code
+  get_url:
+    url: "http://nodejs.org/dist/v{{ nodejs_version }}/node-v{{ nodejs_version }}.tar.gz"
+    dest: "/tmp/node-v{{ nodejs_version }}.tar.gz"
+
+- name: make sure output log directory exists
+  file: "path=/tmp/node-v{{ nodejs_version }} state=directory mode=0755"
+
+- name: Unarchive nodejs source code
+  unarchive: "src=/tmp/node-v{{ nodejs_version }}.tar.gz dest=/tmp"
+
+- name: Configure source
+  command: './configure chdir=/tmp/node-v{{ nodejs_version }}'
+
+- name: Make source
+  command: 'make chdir=/tmp/node-v{{ nodejs_version }}'
+
+- name: Make install source
+  command: 'make install chdir=/tmp/node-v{{ nodejs_version }}'

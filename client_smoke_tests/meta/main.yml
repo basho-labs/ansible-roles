@@ -4,3 +4,4 @@ dependencies:
   - { role: php, when: "'php' in ct_test_libs" }
   - { role: java, when: "'java' in ct_test_libs" }
   - { role: ruby, when: "'ruby' in ct_test_libs" }
+  - { role: nodejs, when: "'nodejs' in ct_test_libs" }
