@@ -3,6 +3,7 @@
 Shareable Ansible roles used for multiple use cases inside Basho.
 
 1. [Prerequisites](#prerequisites)
+1. [Role Dependencies](#role-dependencies)
 1. [Installation](#installation)
 1. [Client Library Environments](#client-library-environments)
 1. [Playbook Examples](#playbook-examples)
@@ -11,21 +12,32 @@ Shareable Ansible roles used for multiple use cases inside Basho.
 
 ## Prerequisites
 
-  - Ansible v2 or higher
+- Ansible v2.1 or higher
+
+## Role Dependencies
+
+This collection of roles has various dependencies that can all be retrieved from Ansible Galaxy using the following command line:
+
+```bash
+ansible-galaxy install basho-labs.riak-kv geerlingguy.php geerlingguy.composer joshualund.golang geerlingguy.java geerlingguy.repo-remi geerlingguy.nodejs geerlingguy.ruby
+```
 
 ## Installation
 
-There are two ways you can use the roles from this repository. Option A is to use these roles as the primary set of roles for your playbooks by cloning this repo as `roles` within the same directory as your playbooks. Option B is to include these in addition to your primary roles and define the path to these roles within your `ansible.cfg` file using the option [`roles_path`](http://docs.ansible.com/ansible/intro_configuration.html#roles-path).
+There are two ways you can use the roles from this repository.
+
+- Option A is to use these roles as the primary set of roles for your playbooks by cloning this repo as `roles` within the same directory as your playbooks.
+- Option B is to include these in addition to your primary roles and define the path to these roles within your `ansible.cfg` file using the option [`roles_path`](http://docs.ansible.com/ansible/intro_configuration.html#roles-path).
 
 ## Client Library Environments
 
 * PHP
 * Go
-* .NET
 * Ruby
-* Python
 * Java
-* Node
+* NodeJS
+* Python
+* .NET
 * Erlang
 
 ## Playbook Examples
