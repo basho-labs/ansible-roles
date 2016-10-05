@@ -40,6 +40,7 @@
   with_items: '{{ ct_libs }}'
   environment:
     GOPATH: '{{ golang_gopath }}'
+    PATH: '{{ ansible_env.PATH }}:/usr/local/bin'
   become: false
   when:
     - item is defined
@@ -54,6 +55,7 @@
     RIAK_HOST: '{{ ct_riak_host }}'
     RIAK_PORT: '{{ ct_riak_port }}'
     RIAK_HTTP_PORT: '{{ ct_riak_http_port }}'
+    PATH: '{{ ansible_env.PATH }}:/usr/local/bin'
   register: test_results
   become: false
   ignore_errors: true

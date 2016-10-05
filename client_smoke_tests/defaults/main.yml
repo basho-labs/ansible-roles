@@ -15,7 +15,7 @@ ct_libs:
     - {
         client: php,
         path: "{{ ct_libs_base_path }}/riak-php-client",
-        deps: '/usr/local/bin/composer update',
+        deps: 'composer update',
         cmd: './vendor/bin/phpunit',
         cmdts: './vendor/bin/phpunit TimeSeriesOperationsTest tests/functional/TimeSeriesOperationsTest.php'
     }
@@ -23,9 +23,9 @@ ct_libs:
     - {
         client: ruby,
         path: "{{ ct_libs_base_path }}/riak-ruby-client",
-        deps: '/usr/local/bin/bundle install --binstubs --path=vendor --without=guard',
-        cmd: "/usr/local/bin/bundle exec rspec --tag ~time_series",
-        cmdts: "/usr/local/bin/bundle exec rspec --tag time_series"
+        deps: 'bundle install --binstubs --path=vendor --without=guard',
+        cmd: "bundle exec rspec --tag ~time_series",
+        cmdts: "bundle exec rspec --tag time_series"
     }
     - { client: nodejs, path: "{{ ct_libs_base_path }}/riak-nodejs-client", release: 'master', deps: 'npm install', cmd: 'make test', cmdts: 'make timeseries-test' }
     - { client: dotnet, path: "{{ ct_libs_base_path }}/riak-dotnet-client", deps: '', cmd: 'make all', cmdts: 'make timeseries-test' }
