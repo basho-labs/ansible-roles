@@ -25,6 +25,7 @@ ct_libs:
         path: "{{ ct_libs_base_path }}/riak-ruby-client",
         deps: 'bundle install --binstubs --path=vendor --without=guard',
         cmd: "bundle exec rspec --tag ~time_series",
+        release: 'master',
         cmdts: "bundle exec rspec --tag time_series"
     }
     - { client: nodejs, path: "{{ ct_libs_base_path }}/riak-nodejs-client", release: 'master', deps: 'npm install', cmd: 'make test', cmdts: 'make timeseries-test' }

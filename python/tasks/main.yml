@@ -1,47 +1,22 @@
 ---
-- name: Ensure dependencies are installed
-  yum: name={{ item }} state=present
-  with_items:
-    - zlib-devel
-    - bzip2-devel
-    - openssl-devel
-    - ncurses-devel
-    - readline-devel
-    - pcre-devel
-    - curl-devel
-    - sqlite-devel
+- name: Set PYENV_ROOT
+  lineinfile: "dest={{ lookup('env','HOME') }}/.bash_profile line='export PYENV_ROOT={{ pyenv_root }}'"
+  become: false
 
-# python install
-- name: Check if python is already installed
-  stat: "path=/usr/local/bin/python{{ item.1|truncate(3, true, '') }}"
-  register: pythons
-  with_indexed_items: python_versions
+- name: Add pyenv to path
+  lineinfile: "dest={{ lookup('env','HOME') }}/.bash_profile line='export PATH=$PYENV_ROOT/bin:$PATH'"
+  become: false
 
-- name: Download Python
-  get_url: "url=https://www.python.org/ftp/python/{{ item.1 }}/Python-{{ item.1 }}.tgz dest=/tmp/Python-{{ item.1 }}.tar"
-  when: "pythons.results[item.0].stat.exists == false"
-  with_indexed_items: python_versions
+- name: Add pyenv init to bash_profile
+  lineinfile: "dest={{ lookup('env','HOME') }}/.bash_profile line='eval \"$(pyenv init -)\"'"
+  become: false
 
-- name: Unpack Python
-  unarchive: "src=/tmp/Python-{{ item.1 }}.tar dest=/tmp copy=no"
-  when: "pythons.results[item.0].stat.exists == false"
-  with_indexed_items: python_versions
+- name: check for python
+  command: "{{ pyenv_root }}/bin/pyenv versions"
+  become: false
+  register: pyenv_versions_output
 
-- name: Configure Python
-  shell: "./configure chdir=/tmp/Python-{{ item.1 }}"
-  when: "pythons.results[item.0].stat.exists == false"
-  with_indexed_items: python_versions
-
-- name: Compile and install Python
-  shell: "make && make altinstall chdir=/tmp/Python-{{ item.1 }}"
-  when: "pythons.results[item.0].stat.exists == false"
-  with_indexed_items: python_versions
-
-- name: Install Setuptools
-  shell: "curl https://bootstrap.pypa.io/ez_setup.py -o - | /usr/local/bin/python{{ item.1|truncate(3, true, '') }} chdir=/tmp"
-  when: "pythons.results[item.0].stat.exists == false"
-  with_indexed_items: python_versions
-
-- name: Install PIP
-  easy_install: "executable=easy_install-{{ item.1|truncate(3, true, '') }} name=pip"
-  with_indexed_items: python_versions
+- name: install python
+  command: "{{ pyenv_root }}/bin/pyenv install {{ python_version }}"
+  become: false
+  when: python_version not in pyenv_versions_output.stdout

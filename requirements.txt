@@ -1,0 +1,8 @@
+azmodude.pyenv
+basho-labs.riak-kv
+geerlingguy.composer
+geerlingguy.java
+geerlingguy.php
+geerlingguy.repo-remi
+geerlingguy.ruby
+joshualund.golang
