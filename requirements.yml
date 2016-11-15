@@ -2,7 +2,11 @@
 - src: 'basho-labs.riak-kv'
 - src: 'geerlingguy.composer'
 - src: 'geerlingguy.java'
-- src: 'geerlingguy.php'
+#- src: 'geerlingguy.php'
+- src: git://github.com/christophermancini/ansible-role-php.git
+  name: geerlingguy.php
+  scm: git
+  version: master
 - src: 'geerlingguy.repo-remi'
 - src: 'geerlingguy.ruby'
 - src: 'joshualund.golang'
