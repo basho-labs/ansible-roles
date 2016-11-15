@@ -1,8 +1,8 @@
-- azmodude.pyenv
-- basho-labs.riak-kv
-- geerlingguy.composer
-- geerlingguy.java
-- geerlingguy.php
-- geerlingguy.repo-remi
-- geerlingguy.ruby
-- joshualund.golang
+- src: 'azmodude.pyenv'
+- src: 'basho-labs.riak-kv'
+- src: 'geerlingguy.composer'
+- src: 'geerlingguy.java'
+- src: 'geerlingguy.php'
+- src: 'geerlingguy.repo-remi'
+- src: 'geerlingguy.ruby'
+- src: 'joshualund.golang'

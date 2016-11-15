@@ -7,7 +7,7 @@ ct_riak_port:       8087
 ct_riak_http_port:  8098
 
 # access token from cmancini's GH account
-ct_github_token: 2341a216a64646cf9acc8448389645359b9bceb7
+ct_github_token: ''
 
 # collection of all libs w/ path and test runner commands
 ct_libs:
