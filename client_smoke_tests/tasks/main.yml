@@ -7,11 +7,9 @@
 
 - name: Ensure lib directory exists
   file: "path={{ ct_libs_base_path }} state=directory mode=0755"
-  become: false
 
 - name: Ensure each lib directory exists
   file: "path='{{ item.path }}' state=directory mode=0755"
-  become: false
   with_items: '{{ ct_libs }}'
   when:
     - item is defined
@@ -20,7 +18,6 @@
 - name: fetch release info
   uri: "url='https://api.github.com/repos/basho/riak-{{ item.client }}-client/releases/latest?access_token={{ ct_github_token }}' return_content=yes"
   register: "release_data"
-  become: false
   with_items: '{{ ct_libs }}'
   when:
     - item is defined
@@ -28,7 +25,6 @@
 
 - name: fetch client archives
   git: "repo=https://github.com/basho/riak-{{ item.item.client }}-client.git dest={{ item.item.path }} version={{ item.item.release | default(item.json.tag_name) }} accept_hostkey=true recursive=true"
-  become: false
   with_items: '{{ release_data.results }}'
   when:
     - item is defined
@@ -41,7 +37,6 @@
   environment:
     GOPATH: '{{ golang_gopath }}'
     PATH: '{{ ansible_env.PATH }}:/usr/local/bin'
-  become: false
   when:
     - item is defined
     - item.client in ct_test_libs
@@ -57,7 +52,6 @@
     RIAK_HTTP_PORT: '{{ ct_riak_http_port }}'
     PATH: '{{ ansible_env.PATH }}:/usr/local/bin'
   register: test_results
-  become: false
   ignore_errors: true
   when:
     - item is defined

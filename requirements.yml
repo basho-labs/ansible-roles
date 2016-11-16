@@ -10,3 +10,4 @@
 - src: 'geerlingguy.repo-remi'
 - src: 'geerlingguy.ruby'
 - src: 'joshualund.golang'
+- src: 'gantsign.maven'
