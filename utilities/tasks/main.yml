@@ -42,3 +42,7 @@
     #- protobuf-devel
     #- readline-devel
     - zlib-devel
+
+- name: ensure a bash_profile file exists for user
+  file: "dest={{ lookup('env','HOME') }}/.bash_profile state=touch"
+  become: false

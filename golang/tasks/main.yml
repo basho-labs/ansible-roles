@@ -1,4 +1,8 @@
 ---
+- name: ensure a bash_profile file exists for user
+  file: "dest={{ lookup('env','HOME') }}/.bash_profile state=touch"
+  become: false
+
 - name: Set GOPATH
   lineinfile: "dest={{ lookup('env','HOME') }}/.bash_profile line='export GOPATH=$GOPATH:{{ golang_gopath }}'"
   become: false

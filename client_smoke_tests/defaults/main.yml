@@ -17,7 +17,7 @@ ct_libs:
         client: php,
         path: "{{ ct_libs_base_path }}/riak-php-client",
         deps: 'composer update',
-        cmd: './vendor/bin/phpunit',
+        cmd: 'make test',
         cmdts: './vendor/bin/phpunit TimeSeriesOperationsTest tests/functional/TimeSeriesOperationsTest.php'
     }
     - {

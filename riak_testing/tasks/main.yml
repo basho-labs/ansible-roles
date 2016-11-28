@@ -1,8 +1,4 @@
 ---
-- name: ensure a bash_profile file exists for user
-  file: "dest={{ lookup('env','HOME') }}/.bash_profile state=touch"
-  become: false
-
 - name: Set RIAK_HOST on user for tests
   lineinfile: "dest={{ lookup('env','HOME') }}/.bash_profile line='export RIAK_HOST={{ riak_testing_host }}'"
   become: false

@@ -1,4 +1,8 @@
 ---
+- name: ensure a bash_profile file exists for user
+  file: "dest={{ lookup('env','HOME') }}/.bash_profile state=touch"
+  become: false
+
 - name: Set PYENV_ROOT
   lineinfile: "dest={{ lookup('env','HOME') }}/.bash_profile line='export PYENV_ROOT={{ pyenv_root }}'"
   become: false

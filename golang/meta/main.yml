@@ -1,3 +1,4 @@
 ---
 dependencies:
+  - { role: utilities }
   - { role: joshualund.golang }
