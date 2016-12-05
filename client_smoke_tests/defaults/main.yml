@@ -25,10 +25,9 @@ ct_libs:
         path: "{{ ct_libs_base_path }}/riak-ruby-client",
         deps: 'bundle install --binstubs --path=vendor --without=guard',
         cmd: "bundle exec rspec --tag ~time_series",
-        release: 'master',
         cmdts: "bundle exec rspec --tag time_series"
     }
-    - { client: nodejs, path: "{{ ct_libs_base_path }}/riak-nodejs-client", release: 'master', deps: 'npm install', cmd: 'make test', cmdts: 'make timeseries-test' }
+    - { client: nodejs, path: "{{ ct_libs_base_path }}/riak-nodejs-client", release: 'master', deps: 'npm install', cmd: 'make test', cmdts: 'make test' }
     - { client: dotnet, path: "{{ ct_libs_base_path }}/riak-dotnet-client", deps: '', cmd: 'make all', cmdts: 'make timeseries-test' }
     - { client: phppb, path: "{{ ct_libs_base_path }}/riak-phppb-client", deps: '', cmd: 'make all', cmdts: 'make timeseries-test' }
     - { client: erlang, path: "{{ ct_libs_base_path }}/riak-erlang-client", deps: '', cmd: 'make all', cmdts: 'make timeseries-test' }
