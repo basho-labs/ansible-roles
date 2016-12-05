@@ -6,7 +6,6 @@ ct_riak_host:       riak-test
 ct_riak_port:       8087
 ct_riak_http_port:  8098
 
-# access token from cmancini's GH account
 ct_github_token: ''
 
 # collection of all libs w/ path and test runner commands
