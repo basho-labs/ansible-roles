@@ -1,3 +1,4 @@
 ---
 dependencies:
-  - { role: geerlingguy.java }
+  - { role: williamyeh.oracle-java }
+  - { role: gantsign.maven }

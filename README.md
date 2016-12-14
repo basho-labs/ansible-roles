@@ -51,7 +51,7 @@ The following are several examples of how to use these Ansible roles in your env
 ```yml
 ---
 - hosts: localhost
-  become: yes
+  become: true
   become_method: sudo
   roles:
     - {
@@ -98,7 +98,7 @@ The following are several examples of how to use these Ansible roles in your env
 ```yml
 ---
 - hosts: localhost
-  become: yes
+  become: true
   become_method: sudo
   roles:
     - {
@@ -115,7 +115,7 @@ The following are several examples of how to use these Ansible roles in your env
 ```yml
 ---
 - hosts: localhost
-  become: yes
+  become: true
   become_method: sudo
   roles:
     - {
@@ -162,7 +162,7 @@ The following are several examples of how to use these Ansible roles in your env
 ```yml
 ---
 - hosts: localhost
-  become: yes
+  become: true
   become_method: sudo
   roles:
     - {

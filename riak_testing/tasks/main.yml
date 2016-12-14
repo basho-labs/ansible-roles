@@ -1,16 +1,12 @@
 ---
-- name: ensure a bash_profile file exists
-  file: "dest={{ lookup('env','HOME') }}/.bash_profile state=touch"
-  become: false
-
-- name: Set RIAK_HOST on vagrant user for tests
+- name: Set RIAK_HOST on user for tests
   lineinfile: "dest={{ lookup('env','HOME') }}/.bash_profile line='export RIAK_HOST={{ riak_testing_host }}'"
   become: false
 
-- name: Set RIAK_PORT on vagrant user for tests
+- name: Set RIAK_PORT on user for tests
   lineinfile: "dest={{ lookup('env','HOME') }}/.bash_profile line='export RIAK_PORT={{ riak_testing_pb_port }}'"
   become: false
 
-- name: Set RIAK_HTTP_PORT on vagrant user for tests
+- name: Set RIAK_HTTP_PORT on user for tests
   lineinfile: "dest={{ lookup('env','HOME') }}/.bash_profile line='export RIAK_HTTP_PORT={{ riak_testing_http_port }}'"
   become: false

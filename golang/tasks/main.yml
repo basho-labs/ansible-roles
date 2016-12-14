@@ -1,6 +1,11 @@
 ---
+- name: ensure a bash_profile file exists for user
+  file: "dest={{ lookup('env','HOME') }}/.bash_profile state=touch"
+  become: false
+
 - name: Set GOPATH
-  lineinfile: "dest=/home/vagrant/.bash_profile line='export GOPATH=$GOPATH:{{ golang_gopath }}'"
+  lineinfile: "dest={{ lookup('env','HOME') }}/.bash_profile line='export GOPATH=$GOPATH:{{ golang_gopath }}'"
+  become: false
 
 - name: symlink go to /usr/bin making it available to ansible
   file: "src=/usr/local/go/bin/go dest=/usr/bin/go state=link mode={{ golang_usr_bin_mode }}"

@@ -1,0 +1,48 @@
+---
+- name: install utilities and dependencies
+  package: "name={{ item }} state=present"
+  with_items:
+    #- autoconf
+    #- automake
+    #- bison
+    #- bzip2
+    - curl
+    - git
+    #- libtool
+    #- ntpdate
+    #- patch
+    #- vim
+    #- wget
+
+- name: install utilities and dependencies Debian
+  package: "name={{ item }} state=present"
+  when: ansible_os_family == "Debian"
+  with_items:
+    - build-essential
+    #- libffi-dev
+    - libssl-dev
+    #- libyaml-dev
+    #- libpam0g-dev
+    #- libprotobuf-dev
+    #- libreadline-dev
+    - zlib1g-dev
+
+- name: install utilities and dependencies RedHat
+  package: "name={{ item }} state=present"
+  when: ansible_os_family == "RedHat"
+  with_items:
+    - gcc
+    - gcc-c++
+    - glibc-devel
+    #- libffi-devel
+    #- libyaml-devel
+    - make
+    - openssl-devel
+    - pam-devel
+    #- protobuf-devel
+    #- readline-devel
+    - zlib-devel
+
+- name: ensure a bash_profile file exists for user
+  file: "dest={{ lookup('env','HOME') }}/.bash_profile state=touch"
+  become: false
