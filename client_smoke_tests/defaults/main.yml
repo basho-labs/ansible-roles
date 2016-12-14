@@ -10,7 +10,7 @@ ct_github_token: ''
 
 # collection of all libs w/ path and test runner commands
 ct_libs:
-    - { client: java, path: "{{ ct_libs_base_path }}/riak-java-client", release: 'master', deps: '', cmd: 'make test', cmdts: 'make test-ts' }
+    - { client: java, path: "{{ ct_libs_base_path }}/riak-java-client", release: 'develop', deps: '', cmd: 'make test', cmdts: 'make test-ts' }
     - { client: go, path: "{{ ct_libs_base_path }}/go/src/github.com/basho/riak-go-client", deps: 'make install-deps', cmd: 'make integration-test', cmdts: 'make integration-test' }
     - {
         client: php,
