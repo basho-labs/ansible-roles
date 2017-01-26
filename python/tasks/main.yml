@@ -1,18 +1,18 @@
 ---
 - name: ensure a bash_profile file exists for user
-  file: "dest=~{{ ansible_ssh_user }}/.bash_profile state=touch"
+  file: "dest=~{{ basho_user | default(ansible_ssh_user) }}/.bash_profile state=touch"
   become: false
 
 - name: Set PYENV_ROOT
-  lineinfile: "dest=~{{ ansible_ssh_user }}/.bash_profile line='export PYENV_ROOT={{ pyenv_root }}'"
+  lineinfile: "dest=~{{ basho_user | default(ansible_ssh_user) }}/.bash_profile line='export PYENV_ROOT={{ pyenv_root }}'"
   become: false
 
 - name: Add pyenv to path
-  lineinfile: "dest=~{{ ansible_ssh_user }}/.bash_profile line='export PATH=$PYENV_ROOT/bin:$PATH'"
+  lineinfile: "dest=~{{ basho_user | default(ansible_ssh_user) }}/.bash_profile line='export PATH=$PYENV_ROOT/bin:$PATH'"
   become: false
 
 - name: Add pyenv init to bash_profile
-  lineinfile: "dest=~{{ ansible_ssh_user }}/.bash_profile line='eval \"$(pyenv init -)\"'"
+  lineinfile: "dest=~{{ basho_user | default(ansible_ssh_user) }}/.bash_profile line='eval \"$(pyenv init -)\"'"
   become: false
 
 - name: check for python
