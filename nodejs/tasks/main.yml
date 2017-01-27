@@ -8,7 +8,7 @@
   file: "path=/tmp/node-v{{ nodejs_version }} state=directory mode=0755"
 
 - name: Unarchive nodejs source code
-  unarchive: "src=/tmp/node-v{{ nodejs_version }}.tar.gz dest=/tmp"
+  unarchive: "src=/tmp/node-v{{ nodejs_version }}.tar.gz dest=/tmp copy=no"
 
 - name: Configure source
   command: './configure chdir=/tmp/node-v{{ nodejs_version }}'
