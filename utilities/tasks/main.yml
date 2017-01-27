@@ -44,5 +44,5 @@
     - zlib-devel
 
 - name: ensure a bash_profile file exists for user
-  file: "dest={{ lookup('env','HOME') }}/.bash_profile state=touch"
+  file: "dest=~{{ basho_user | default(ansible_ssh_user) }}/.bash_profile state=touch"
   become: false

@@ -1,4 +1,4 @@
 ---
-golang_gopath: "{{ lookup('env','HOME') }}/code/go"
+golang_gopath: "~{{ basho_user | default(ansible_ssh_user) }}/code/go"
 golang_usr_bin: false
 golang_usr_bin_mode: 0755
