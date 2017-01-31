@@ -60,17 +60,34 @@
 #- name: output debug data
 #  debug: var=test_results
 
-- name: make sure output log directory exists
+- name: make sure the local output log directory exists
   local_action: "file path={{ ct_test_log_dir }} state=directory mode=0755"
+  when:
+    - ct_local_log_pull == true
 
-- name: output test log if error
+- name: make sure the output log directory exists
+  file: "path={{ ct_test_log_dir }} state=directory mode=0755"
+  when:
+    - ct_local_log_pull == false
+
+- name: locally output test log if error
   local_action: "copy content={{ item.stdout }} dest={{ ct_test_log_dir }}{{ item.item.client }}_{{ ansible_date_time.date }}.log"
   with_items: '{{ test_results.results }}'
   when:
+    - ct_local_log_pull == true
+    - item | failed
+    - item.stdout is defined
+
+- name: output test log if error
+  copy: "content={{ item.stdout }} dest={{ ct_test_log_dir }}{{ item.item.client }}_{{ ansible_date_time.date }}.log"
+  with_items: '{{ test_results.results }}'
+  when:
+    - ct_local_log_pull == false
     - item | failed
     - item.stdout is defined
 
 - name: fail if any of the smoke tests failed
   fail: "msg='Smoke tests failed. Results logged to {{ ct_test_log_dir }}'"
   when:
+    - ct_local_log_pull == true
     - test_results | failed
