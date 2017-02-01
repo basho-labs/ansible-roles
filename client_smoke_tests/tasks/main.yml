@@ -89,5 +89,4 @@
 - name: fail if any of the smoke tests failed
   fail: "msg='Smoke tests failed. Results logged to {{ ct_test_log_dir }}'"
   when:
-    - ct_local_log_pull == true
     - test_results | failed
