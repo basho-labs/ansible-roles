@@ -41,3 +41,6 @@ ct_test_libs:
     - nodejs
 
 ct_test_log_dir: /var/log/client_smoke_tests/
+
+ct_local_log_pull: true
+ct_suppress_failure: false
