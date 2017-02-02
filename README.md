@@ -19,15 +19,16 @@ Shareable Ansible roles used for multiple use cases inside Basho.
 This collection of roles has various dependencies that can all be retrieved from Ansible Galaxy using the following command line:
 
 ```bash
-ansible-galaxy install basho-labs.riak-kv geerlingguy.php geerlingguy.composer joshualund.golang geerlingguy.java geerlingguy.repo-remi geerlingguy.nodejs geerlingguy.ruby
+ansible-galaxy install -r requirements.yml
 ```
 
 ## Installation
 
-There are two ways you can use the roles from this repository.
+There are a few ways you can use the roles from this repository.
 
-- Option A is to use these roles as the primary set of roles for your playbooks by cloning this repo as `roles` within the same directory as your playbooks.
-- Option B is to include these in addition to your primary roles and define the path to these roles within your `ansible.cfg` file using the option [`roles_path`](http://docs.ansible.com/ansible/intro_configuration.html#roles-path).
+- Option A is to include this repository as an entry in your projects requirements.yml e.g. [example](https://github.com/basho-labs/riak-clients-vagrant/blob/master/provisioning/requirements.yml#L7)
+- Option B is to use these roles as the primary set of roles for your playbooks by cloning this repo as `roles` within the same directory as your playbooks.
+- Option C is to include these in addition to your primary roles and define the path to these roles within your `ansible.cfg` file using the option [`roles_path`](http://docs.ansible.com/ansible/intro_configuration.html#roles-path).
 
 ## Client Library Environments
 
