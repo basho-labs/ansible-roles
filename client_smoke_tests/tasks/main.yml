@@ -71,7 +71,7 @@
     - ct_local_log_pull == false
 
 - name: locally output test log if error
-  local_action: "copy content={{ item.stdout }} dest={{ ct_test_log_dir }}{{ item.item.client }}_{{ ansible_date_time.date }}.log"
+  local_action: "copy content={{ item.stdout }} dest={{ ct_test_log_dir }}{{ item.item.client }}_{{ ansible_date_time.date }}_{{ ansible_date_time.hour }}{{ ansible_date_time.minute }}.log"
   with_items: '{{ test_results.results }}'
   when:
     - ct_local_log_pull == true
@@ -79,7 +79,7 @@
     - item.stdout is defined
 
 - name: output test log if error
-  copy: "content={{ item.stdout }} dest={{ ct_test_log_dir }}{{ item.item.client }}_{{ ansible_date_time.date }}.log"
+  copy: "content={{ item.stdout }} dest={{ ct_test_log_dir }}{{ item.item.client }}_{{ ansible_date_time.date }}_{{ ansible_date_time.hour }}{{ ansible_date_time.minute }}.log"
   with_items: '{{ test_results.results }}'
   when:
     - ct_local_log_pull == false
