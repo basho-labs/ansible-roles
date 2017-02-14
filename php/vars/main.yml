@@ -1,2 +1,3 @@
 ---
 php_opcache_enable: 0
+php_enable_apc: 0
